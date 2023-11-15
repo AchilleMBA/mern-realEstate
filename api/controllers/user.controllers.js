@@ -38,3 +38,16 @@ export const updateUser = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deleteUser = async (req, res, next) => {
+  if(req.user.id !== req.params.id) 
+  return next (errorHandler(401, 'Vous pouvez seulement effacer votre propre compte'));
+  try {
+    await User.findByIdAndDelete(req.params.id)
+    res.clearCookie('acces_token');
+    res.status(200).json ({message: 'Utilisateur a été effacé...👌'})
+  } catch (error) {
+    next(error);
+    
+  }
+};
