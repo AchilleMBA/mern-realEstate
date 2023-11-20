@@ -40,14 +40,13 @@ export const updateUser = async (req, res, next) => {
 };
 
 export const deleteUser = async (req, res, next) => {
-  if(req.user.id !== req.params.id) 
-  return next (errorHandler(401, 'Vous pouvez seulement effacer votre propre compte'));
+  if (req.user.id !== req.params.id)
+    return next(errorHandler(401, 'Vous pouvez seulement effacer votre compte'));
   try {
-    await User.findByIdAndDelete(req.params.id)
-    res.clearCookie('acces_token');
-    res.status(200).json ({message: 'Utilisateur a été effacé...👌'})
+    await User.findByIdAndDelete(req.params.id);
+    res.clearCookie('access_token');
+    res.status(200).json();
   } catch (error) {
     next(error);
-    
   }
 };
